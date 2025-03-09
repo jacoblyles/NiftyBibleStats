@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import conc from '../data/concordance.json';
 
-
 const ggallwords = Object.keys(conc).sort(); 
 
-
-
 const Search = () => {
-
   const [state, setState] = useState({
     allWords: [],
     wordList: [],
     shortestMatch: null,
-    lastSearch: null,
+    lastSearch: '',
     matchCount: 0
   });
 
+  useEffect(() => {
+    // Retrieve the last search term from session storage on component mount
+    const lastSearch = sessionStorage.getItem('lastSearch') || '';
+    if (lastSearch) {
+      handleOnTextChange({ target: { value: lastSearch } });
+    }
+  }, []);
+
   const handleOnTextChange = (e) => {
     const value = e.target.value;
+    sessionStorage.setItem('lastSearch', value); // Save the search term to session storage
     const newData = ggallwords.filter(el => el.toLowerCase().includes(value.toLowerCase()));
     
     if (!value) {
