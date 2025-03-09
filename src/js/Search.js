@@ -24,7 +24,7 @@ const Search = () => {
     if (!value) {
       setState({allWords: newData.slice(), wordList: [], shortestMatch: null, matchCount: 0, lastSearch: ""});
     } else {
-      const shortestMatch = newData.reduce((a,b) => { return a.length <= b.length ? a : b;}, "");
+      const shortestMatch = newData.length > 0 ? newData.reduce((a,b) => { return a.length <= b.length ? a : b;}, "") : null;
   
       setState({
         allWords: newData.slice(),
